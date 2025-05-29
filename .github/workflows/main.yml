@@ -20,9 +20,10 @@ jobs:
         run: |
           npm install -g pa11y
           echo "<!DOCTYPE html><html><head><title>Dummy</title></head><body><h1>Hello</h1></body></html>" > test.html
-          pa11y file://$PWD/test.html --reporter json > pa11y-report.json
+          pa11y file://$PWD/test.html --chrome-launcher-flags="--no-sandbox,--disable-setuid-sandbox" --reporter json > pa11y-report.json
           echo "Accessibility score:"
           node -e "const r=require('./pa11y-report.json');console.log(100 - r.issues.length * 5); if(r.issues.length) console.log('Issues:', r.issues.map(i => i.message))"
+
   deploy-dev:
     name: Deploy to Dev
     needs: accessibility-check
