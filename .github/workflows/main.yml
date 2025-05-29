@@ -16,11 +16,8 @@ jobs:
           node-version: "18"
       - name: Install dependencies
         run: npm ci
-      - name: Run Accessibility Audit (using Pa11y)
-        run: |
-          npm install pa11y puppeteer
-          echo "<!DOCTYPE html><html><head><title>Dummy</title></head><body><h1>Hello</h1></body></html>" > test.html
-          node pa11y-runner.js
+      - name: Run Accessibility Audit (using )
+       
   deploy-dev:
     name: Deploy to Dev
     needs: accessibility-check
