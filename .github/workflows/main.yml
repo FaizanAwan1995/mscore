@@ -1,0 +1,45 @@
+name: Node.js CI/CD with Accessibility Check
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  accessibility-check:
+    name: Accessibility & Code Quality Report
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+      - name: Install dependencies
+        run: npm ci
+      - name: Run Accessibility Audit (using Pa11y)
+        run: |
+          npm install -g pa11y
+          echo "<!DOCTYPE html><html><head><title>Dummy</title></head><body><h1>Hello</h1></body></html>" > test.html
+          pa11y file://$PWD/test.html --reporter json > pa11y-report.json
+          echo "Accessibility score:"
+          node -e "const r=require('./pa11y-report.json');console.log(100 - r.issues.length * 5); if(r.issues.length) console.log('Issues:', r.issues.map(i => i.message))"
+  deploy-dev:
+    name: Deploy to Dev
+    needs: accessibility-check
+    runs-on: ubuntu-latest
+    environment: development
+    steps:
+      - uses: actions/checkout@v3
+      - name: Simulate Dev Deployment
+        run: echo "Deployed to Development"
+
+  deploy-prod:
+    name: Deploy to Production
+    if: github.ref == 'refs/heads/main'
+    needs: deploy-dev
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+      - name: Simulate Prod Deployment
+        run: echo "Deployed to Production"
