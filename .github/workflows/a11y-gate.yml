@@ -1,9 +1,10 @@
 name: Enforce Accessibility Score
 on:
+  push:
+    branches: [main]
   pull_request:
-    branches:
-      - dev
-      - prod
+    branches: [main]
+
 jobs:
   accessibility:
     runs-on: ubuntu-latest
