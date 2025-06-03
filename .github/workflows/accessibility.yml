@@ -20,8 +20,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build app (if needed)
-        run: npm run build # optional, if your app needs to be built
+      # - name: Build app (if needed)
+      #   run: npm run build # optional, if your app needs to be built
 
       - name: Run accessibility test
         run: node axe-test.js
