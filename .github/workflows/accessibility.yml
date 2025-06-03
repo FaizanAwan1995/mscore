@@ -2,7 +2,7 @@ name: Accessibility Check
 
 on:
   pull_request:
-    branches: [main] # or your target branch for PRs
+    branches: [main] # or your target branch for PR
 
 jobs:
   accessibility:
